@@ -1,0 +1,56 @@
+{
+  "name": "Cringe Town",
+  "startPoint": 10,
+  "endPoint": 200,
+  "tiles": [
+    {
+      "position": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "rotation": {
+        "angle": 0
+      },
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "interactable": "false",
+      "solid": "true",
+      "texture": "Assets/Sprites/Bricks.png"
+    },
+    {
+      "position": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "rotation": {
+        "angle": 0
+      },
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "interactable": "true",
+      "solid": "true",
+      "texture": "Assets/Sprites/Bricks.png"
+    }
+  ],
+  "entities": [
+    {
+      "position": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "rotation": {
+        "angle": 0
+      },
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "aggressive": "true",
+      "texture": "Assets/Sprites/Gooba.png"
+    }
+  ]
+}

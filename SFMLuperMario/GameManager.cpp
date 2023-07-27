@@ -2,14 +2,21 @@
 
 sf::Clock GameManager::gameClock;
 float GameManager::deltaTime = 0.f;
+
 float GameManager::floor = 0.f;
+
 std::vector<Entity*> GameManager::entities;
+
+Level GameManager::currentLevel;
 
 GameManager::GameManager(sf::RenderWindow& window) 
 {
 	floor = window.getSize().y - floorHeight;
 	gameClock.restart();
-	addEntity(new Entity("Nemico", sf::Vector2f(500.f, 50.f), sf::Vector2f(1.5f, 1.5f), sf::Color::Blue, true));
+
+	currentLevel.loadLevel(0);
+
+	//addEntity(new Entity("Nemico", sf::Vector2f(500.f, 50.f), sf::Vector2f(1.5f, 1.5f), sf::Color::Blue, true));
 
 	Player* player = new Player("Giocatore", sf::Vector2f(100.f, 50.f), sf::Vector2f(1.f, 1.f), sf::Color::Red);
 	addEntity(player);

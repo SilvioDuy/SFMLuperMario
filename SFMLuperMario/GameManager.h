@@ -3,6 +3,7 @@
 #include <SFML\Graphics.hpp>
 #include "Entity.h"
 #include "Player.h"
+#include "Level.h"
 #include "Utils.h"
 
 class GameManager
@@ -24,8 +25,11 @@ public:
 private:
 	static sf::Clock gameClock;
 	static float deltaTime;
-	static float floor;
+
+	static Level currentLevel;
 	static std::vector<Entity*> entities;
+
+	static float floor;
 	float floorHeight = 80.f;
 };
 
