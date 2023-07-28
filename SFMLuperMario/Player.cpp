@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "GameManager.h"
+#include "Animator.h"
+#include "Utils.h"
 
 Player::Player(std::string name, sf::Vector2f pos, sf::Vector2f scale, sf::Color col) : Entity(name, pos, scale, col, true)
 {
@@ -8,38 +10,42 @@ Player::Player(std::string name, sf::Vector2f pos, sf::Vector2f scale, sf::Color
 	currentJumpTime = 0.f;
 	isJumping = false;
 
-	isAnimated = true;
-	animator = Animator(2, 6, 16);
+	populateAnimations();
+}
+
+void Player::populateAnimations()
+{
+	animator = new Animator(2, 6, 16);
 
 	std::vector<AnimationFrame> frames;
 	frames.push_back(AnimationFrame(0, 0, 0));
-	animator.addAnimation(Animation(frames, true));
+	animator->addAnimation(Animation(frames, true));
 
 	frames.clear();
 	frames.push_back(AnimationFrame(0, 1, 0));
-	animator.addAnimation(Animation(frames, true));
+	animator->addAnimation(Animation(frames, true));
 
 	frames.clear();
 	frames.push_back(AnimationFrame(1, 0, 0.1f));
 	frames.push_back(AnimationFrame(2, 0, 0.1f));
 	frames.push_back(AnimationFrame(3, 0, 0.1f));
 
-	animator.addAnimation(Animation(frames, true));
+	animator->addAnimation(Animation(frames, true));
 
 	frames.clear();
 	frames.push_back(AnimationFrame(1, 1, 0.1f));
 	frames.push_back(AnimationFrame(2, 1, 0.1f));
 	frames.push_back(AnimationFrame(3, 1, 0.1f));
 
-	animator.addAnimation(Animation(frames, true));
+	animator->addAnimation(Animation(frames, true));
 
 	frames.clear();
 	frames.push_back(AnimationFrame(5, 0, 0));
-	animator.addAnimation(Animation(frames, true));
+	animator->addAnimation(Animation(frames, true));
 
 	frames.clear();
 	frames.push_back(AnimationFrame(5, 1, 0));
-	animator.addAnimation(Animation(frames, true));
+	animator->addAnimation(Animation(frames, true));
 }
 
 void Player::update()
@@ -50,19 +56,19 @@ void Player::update()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) 
 	{
-		currentOrientation = Orientation::Right;
+		currentOrientation = HorizontalOrientation::Right;
 		sprite.move(movementSpeed * GameManager::getDeltaTime(), 0.f);
 		animationToPlay = PlayerAnimation::MoveRight;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		currentOrientation = Orientation::Left;
+		currentOrientation = HorizontalOrientation::Left;
 		sprite.move(-movementSpeed * GameManager::getDeltaTime(), 0.f);
 		animationToPlay = PlayerAnimation::MoveLeft;
 	}
 	else
 	{
-		animationToPlay = currentOrientation == Orientation::Left ? PlayerAnimation::IdleLeft : PlayerAnimation::IdleRight;
+		animationToPlay = currentOrientation == HorizontalOrientation::Left ? PlayerAnimation::IdleLeft : PlayerAnimation::IdleRight;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isGrounded) 
@@ -73,10 +79,10 @@ void Player::update()
 	if (isJumping) 
 	{
 		jump();
-		animationToPlay = currentOrientation == Orientation::Left ? PlayerAnimation::JumpLeft : PlayerAnimation::JumpRight;
+		animationToPlay = currentOrientation == HorizontalOrientation::Left ? PlayerAnimation::JumpLeft : PlayerAnimation::JumpRight;
 	}
 
-	animator.changeAnimation(static_cast<int>(animationToPlay));
+	animator->changeAnimation(static_cast<int>(animationToPlay));
 }
 
 void Player::jump()

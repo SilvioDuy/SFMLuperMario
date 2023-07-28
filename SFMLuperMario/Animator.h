@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "Utils.h"
 
 /// <summary>
 /// A single frame of a complete animation

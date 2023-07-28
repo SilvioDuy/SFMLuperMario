@@ -1,5 +1,6 @@
 #include "Animator.h"
 #include "GameManager.h"
+#include "Utils.h"
 
 Animator::Animator(int rows, int cols, int size)
 {

@@ -1,7 +1,8 @@
+#include <iostream>
 #include "Entity.h"
 #include "GameManager.h"
-
-#include <iostream>
+#include "Utils.h"
+#include "Animator.h"
 
 using namespace sf;
 
@@ -15,16 +16,20 @@ Entity::Entity(std::string entityName, Vector2f pos, Vector2f scale, Color col, 
 	sprite.setScale(scale);
 
 	movementSpeed = 5.f;
-	isAnimated = false;
 
-	currentOrientation = Orientation::Right;
+	currentOrientation = HorizontalOrientation::Right;
+}
+
+Entity::~Entity()
+{
+	delete animator;
 }
 
 void Entity::update()
 {
-	if (isAnimated)
+	if (animator)
 	{
-		animator.animateSprite(sprite);
+		animator->animateSprite(sprite);
 	}
 
 	if (isPhysic)
@@ -39,7 +44,7 @@ void Entity::computeGravity()
 	if (isGrounded)
 		return;
 
-	sprite.move(0.f, GRAVITY_FORCE * GameManager::getDeltaTime());
+	sprite.move(0.f, GameManager::getGravityForce() * GameManager::getDeltaTime());
 
 	float halfShapeSize = sprite.getScale().y * 0.5f;
 

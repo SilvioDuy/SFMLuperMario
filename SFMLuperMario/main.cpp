@@ -2,9 +2,8 @@
 //
 
 #include <SFML\Graphics.hpp>
-#include "Entity.h"
-#include "Player.h"
 #include "GameManager.h"
+#include "Entity.h"
 
 using namespace sf;
 
@@ -13,7 +12,7 @@ int main()
     RenderWindow window(VideoMode(640, 400), "SFML works!", Style::Default);
     window.setFramerateLimit(60);
 
-    GameManager gameManager(window);
+    GameManager gameManager(&window);
 
     while (window.isOpen())
     {

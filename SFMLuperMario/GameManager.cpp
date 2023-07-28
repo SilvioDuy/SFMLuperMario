@@ -1,20 +1,23 @@
 #include "GameManager.h"
+#include "Entity.h"
+#include "Player.h"
+#include "Level.h"
+#include "Utils.h"
 
+//Static members declaration
+sf::RenderWindow* GameManager::gameWindow;
 sf::Clock GameManager::gameClock;
 float GameManager::deltaTime = 0.f;
-
-float GameManager::floor = 0.f;
-
 std::vector<Entity*> GameManager::entities;
+Level* GameManager::currentLevel;
 
-Level GameManager::currentLevel;
-
-GameManager::GameManager(sf::RenderWindow& window) 
+GameManager::GameManager(sf::RenderWindow* window) 
 {
-	floor = window.getSize().y - floorHeight;
+	gameWindow = window;
 	gameClock.restart();
 
-	currentLevel.loadLevel(0);
+	currentLevel = new Level();
+	currentLevel->loadLevelData(0);
 
 	//addEntity(new Entity("Nemico", sf::Vector2f(500.f, 50.f), sf::Vector2f(1.5f, 1.5f), sf::Color::Blue, true));
 
@@ -31,6 +34,7 @@ GameManager::~GameManager()
 	}
 
 	entities.clear();
+	delete currentLevel;
 }
 
 void GameManager::updateGame()
@@ -50,6 +54,16 @@ void GameManager::updateGame()
 void GameManager::addEntity(Entity* entityToAdd)
 {
 	entities.push_back(entityToAdd);
+}
+
+float GameManager::getFloor()
+{
+	return currentLevel->getFloorHeight();
+}
+
+float GameManager::getGravityForce()
+{
+	return currentLevel->getGravityForce();
 }
 
 void GameManager::removeEntity(Entity* entityToRemove)

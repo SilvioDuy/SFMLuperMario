@@ -2,6 +2,8 @@
   "name": "Cringe Town",
   "startPoint": 10,
   "endPoint": 200,
+  "gravityForce": 240,
+  "floor": 80,
   "tiles": [
     {
       "position": {
