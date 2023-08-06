@@ -145,20 +145,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animator.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="src\physics\PhysicsHandler.cpp" />
+    <ClCompile Include="src\physics\Rigidbody.cpp" />
+    <ClCompile Include="src\graphics\Animation.cpp" />
+    <ClCompile Include="src\graphics\Animator.cpp" />
+    <ClCompile Include="src\physics\Collider.cpp" />
+    <ClCompile Include="src\core\Entity.cpp" />
+    <ClCompile Include="src\core\GameManager.cpp" />
+    <ClCompile Include="src\core\Level.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="src\physics\PhysicsManager.cpp" />
+    <ClCompile Include="src\core\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animator.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="GameManager.h" />
-    <ClInclude Include="Level.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Utils.h" />
+    <ClInclude Include="src\physics\PhysicsHandler.h" />
+    <ClInclude Include="src\physics\Rigidbody.h" />
+    <ClInclude Include="src\graphics\Animation.h" />
+    <ClInclude Include="src\graphics\Animator.h" />
+    <ClInclude Include="src\physics\Collider.h" />
+    <ClInclude Include="src\utils\AssetsUtils.h" />
+    <ClInclude Include="src\core\Entity.h" />
+    <ClInclude Include="src\core\GameManager.h" />
+    <ClInclude Include="src\core\Level.h" />
+    <ClInclude Include="src\physics\PhysicsManager.h" />
+    <ClInclude Include="src\core\Player.h" />
+    <ClInclude Include="src\utils\MathUtils.h" />
+    <ClInclude Include="src\utils\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

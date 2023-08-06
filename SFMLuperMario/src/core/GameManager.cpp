@@ -2,47 +2,52 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Level.h"
-#include "Utils.h"
+#include "../utils/Utils.h"
+
+using namespace Game::Core;
 
 //Static members declaration
+Level* GameManager::currentLevel;
+std::vector<PEntity> GameManager::entities;
+
 sf::RenderWindow* GameManager::gameWindow;
+
 sf::Clock GameManager::gameClock;
 float GameManager::deltaTime = 0.f;
-std::vector<Entity*> GameManager::entities;
-Level* GameManager::currentLevel;
 
 GameManager::GameManager(sf::RenderWindow* window) 
 {
 	gameWindow = window;
 	gameClock.restart();
 
+	physicsManager = new Game::Physics::PhysicsManager();
+
 	currentLevel = new Level();
 	currentLevel->loadLevelData(0);
 
-	//addEntity(new Entity("Nemico", sf::Vector2f(500.f, 50.f), sf::Vector2f(1.5f, 1.5f), sf::Color::Blue, true));
-
-	Player* player = new Player("Giocatore", sf::Vector2f(100.f, 50.f), sf::Vector2f(1.f, 1.f), sf::Color::Red);
-	addEntity(player);
-	player->setTexture("Assets/Sprites/MarioSheet.png");
+	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player("Giocatore", sf::Vector2f(100.f, 50.f), sf::Vector2f(0.f, 0.f), sf::Vector2f(1.f, 1.f)));
+	player->setTexture("Assets/Sprites/MarioSheet.png", 0, 0, (int)PLAYER_SPRITE_SIZE);
+	addEntity(std::move(player));
 }
 
 GameManager::~GameManager()
 {
-	for (int i = entities.size() - 1; i >= 0; i--)
-	{
-		delete entities[i];
-	}
-
 	entities.clear();
 	delete currentLevel;
+	delete physicsManager;
 }
 
 void GameManager::updateGame()
 {
+	if (physicsManager)
+	{
+		physicsManager->update();
+	}
+
 	deltaTime = gameClock.getElapsedTime().asSeconds();
 	gameClock.restart();
 
-	for (Entity* e : entities)
+	for (auto const& e : entities)
 	{
 		if (e == nullptr)
 			continue;
@@ -51,7 +56,7 @@ void GameManager::updateGame()
 	}
 }
 
-void GameManager::addEntity(Entity* entityToAdd)
+void GameManager::addEntity(PEntity entityToAdd)
 {
 	entities.push_back(entityToAdd);
 }
@@ -66,14 +71,14 @@ float GameManager::getGravityForce()
 	return currentLevel->getGravityForce();
 }
 
-void GameManager::removeEntity(Entity* entityToRemove)
+void GameManager::removeEntity(PEntity entityToRemove)
 {
 	if (entityToRemove == nullptr)
 		return;
 
 	int index = -1;
 
-	for (int i = 0; i < entities.size(); i++)
+	for (unsigned int i = 0; i < entities.size(); i++)
 	{
 		if (entities[i] == entityToRemove)
 		{
@@ -86,5 +91,4 @@ void GameManager::removeEntity(Entity* entityToRemove)
 		return;
 
 	entities.erase(entities.begin() + index);
-	delete entityToRemove;
 }

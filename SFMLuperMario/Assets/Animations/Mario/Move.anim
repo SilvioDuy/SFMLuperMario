@@ -1,0 +1,20 @@
+{
+	"loop": true,
+	"frames": [
+		{
+			"xPos": 1,
+			"yPos": 0,
+			"duration": 0.1
+		},
+		{
+			"xPos": 2,
+			"yPos": 0,
+			"duration": 0.1
+		},
+		{
+			"xPos": 3,
+			"yPos": 0,
+			"duration": 0.1
+		}
+	]
+}

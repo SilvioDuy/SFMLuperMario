@@ -1,6 +1,11 @@
+#include <iostream>
 #include "Animator.h"
-#include "GameManager.h"
-#include "Utils.h"
+#include "../core/GameManager.h"
+#include "../utils/Utils.h"
+
+#define GameManager Game::Core::GameManager
+
+using namespace Game::Graphics;
 
 Animator::Animator(int rows, int cols, int size)
 {

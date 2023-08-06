@@ -24,40 +24,76 @@
     <ClCompile Include="main.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
+    <ClCompile Include="src\core\Entity.cpp">
       <Filter>File di origine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
+    <ClCompile Include="src\core\GameManager.cpp">
       <Filter>File di origine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="src\core\Player.cpp">
       <Filter>File di origine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Animator.cpp">
+    <ClCompile Include="src\graphics\Animator.cpp">
       <Filter>File di origine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
+    <ClCompile Include="src\core\Level.cpp">
       <Filter>File di origine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics\PhysicsManager.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics\Collider.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Animation.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics\Rigidbody.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics\PhysicsHandler.cpp">
+      <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entity.h">
+    <ClInclude Include="src\core\Entity.h">
       <Filter>File di intestazione\Core</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
+    <ClInclude Include="src\core\GameManager.h">
       <Filter>File di intestazione\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="src\core\Player.h">
       <Filter>File di intestazione\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
+    <ClInclude Include="src\graphics\Animator.h">
+      <Filter>File di intestazione\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Level.h">
+      <Filter>File di intestazione\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\AssetsUtils.h">
+      <Filter>File di intestazione\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\Utils.h">
+      <Filter>File di intestazione\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\physics\PhysicsManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="Animator.h">
-      <Filter>File di intestazione\Core</Filter>
+    <ClInclude Include="src\physics\Collider.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>File di intestazione\Core</Filter>
+    <ClInclude Include="src\graphics\Animation.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\physics\Rigidbody.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\physics\PhysicsHandler.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\MathUtils.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
