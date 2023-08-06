@@ -5,5 +5,7 @@ using namespace Game::Physics;
 
 Rigidbody::Rigidbody()
 {
-	useGravity = true;
+	mass = 1.f;
+	useGravity = false;
+	isGrounded = false;
 }
