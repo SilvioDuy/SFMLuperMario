@@ -3,4 +3,4 @@
 #include <iostream>
 
 //Logs in console the message "x"
-#define log(x) std::cout << x << std::endl
+#define DEBUG_LOG(x) std::cout << x << std::endl

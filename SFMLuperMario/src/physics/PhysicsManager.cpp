@@ -3,19 +3,25 @@
 
 using namespace Game::Physics;
 
-std::vector<PPhysicsHandler> PhysicsManager::handlers;
+std::vector<WPPhysicsHandler> PhysicsManager::handlers;
 
-float PhysicsManager::gravityForce = 9.81f;
+float PhysicsManager::gravityForce = 59.81f;
 
-void PhysicsManager::update()
+void PhysicsManager::resolvePhysics()
 {
-	for (auto const& h : handlers)
+	for (auto const& handler : handlers)
 	{
-		h->computePhysics(handlers);
+		if (auto h = handler.lock())
+		{
+			if (!h->enabled)
+				continue;
+
+			h->computePhysics(handlers);
+		}
 	}
 }
 
-void PhysicsManager::addHandler(PhysicsHandler* handler)
+void PhysicsManager::addHandler(WPPhysicsHandler handler)
 {
-	handlers.push_back(std::make_shared<PhysicsHandler>(*handler));
+	handlers.push_back(std::move(handler));
 }

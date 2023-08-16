@@ -3,7 +3,8 @@
 
 #include <SFML\Graphics.hpp>
 #include "src/core/GameManager.h"
-#include "src/core/Entity.h"
+#include "src/physics/PhysicsManager.h"
+#include "src/graphics/RenderingManager.h"
 
 using namespace sf;
 
@@ -13,6 +14,8 @@ int main()
     window.setFramerateLimit(60);
 
     Game::Core::GameManager gameManager(&window);
+    Game::Physics::PhysicsManager physicsManager;
+    Game::Graphics::RenderingManager renderingManager;
 
     while (window.isOpen())
     {
@@ -25,21 +28,9 @@ int main()
 
         gameManager.updateGame();
 
-#pragma region Draw
+        physicsManager.resolvePhysics();
 
-        window.clear();
-
-        for (auto const& e : Game::Core::GameManager::getEntities())
-        {
-            if (e == nullptr)
-                continue;
-
-            window.draw(e->getSprite());
-        }
-
-        window.display();
-
-#pragma endregion        
+        renderingManager.renderFrame(window);
     }
 
     return 0;

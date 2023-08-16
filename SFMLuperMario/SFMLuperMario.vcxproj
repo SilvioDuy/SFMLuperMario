@@ -145,12 +145,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\GameObject.cpp" />
+    <ClCompile Include="src\graphics\Renderer.cpp" />
+    <ClCompile Include="src\graphics\RenderingManager.cpp" />
     <ClCompile Include="src\physics\PhysicsHandler.cpp" />
     <ClCompile Include="src\physics\Rigidbody.cpp" />
     <ClCompile Include="src\graphics\Animation.cpp" />
     <ClCompile Include="src\graphics\Animator.cpp" />
     <ClCompile Include="src\physics\Collider.cpp" />
-    <ClCompile Include="src\core\Entity.cpp" />
     <ClCompile Include="src\core\GameManager.cpp" />
     <ClCompile Include="src\core\Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -158,6 +160,11 @@
     <ClCompile Include="src\core\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\Component.h" />
+    <ClInclude Include="src\core\GameObject.h" />
+    <ClInclude Include="src\core\Transform.h" />
+    <ClInclude Include="src\graphics\Renderer.h" />
+    <ClInclude Include="src\graphics\RenderingManager.h" />
     <ClInclude Include="src\physics\PhysicsHandler.h" />
     <ClInclude Include="src\physics\Rigidbody.h" />
     <ClInclude Include="src\graphics\Animation.h" />

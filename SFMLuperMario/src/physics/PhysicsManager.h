@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <vector>
 #include "PhysicsHandler.h"
 
 namespace Game
@@ -12,15 +11,15 @@ namespace Game
 		{		
 
 		public:
-			void update();
+			void resolvePhysics();
 
-			static void addHandler(PhysicsHandler* handler);
+			static void addHandler(WPPhysicsHandler handler);
 
 		public:
 			static float gravityForce;
 
 		private:
-			static std::vector<PPhysicsHandler> handlers;
+			static std::vector<WPPhysicsHandler> handlers;
 		};
 	}
 }

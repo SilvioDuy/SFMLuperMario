@@ -1,17 +1,14 @@
 #pragma once
 
 #include <SFML\Graphics.hpp>
-#include "../physics/PhysicsManager.h"
+#include "Entity.h"
 
 namespace Game
 {
 	namespace Core
 	{
-		#define PEntity std::shared_ptr<Entity>
-
 		//Forward declarations
 		class Level;
-		class Entity;
 
 		/// <summary>
 		/// Manages the game flow
@@ -39,22 +36,28 @@ namespace Game
 			/// </summary>
 			/// <returns>Window size in pixels</returns>
 			inline static sf::Vector2u getWindowSize() { return gameWindow->getSize(); }
+			/// <summary>
+			/// Get the original world Y position from an inverted one (with origin at the bottom of the window)
+			/// </summary>
+			/// <param name="y">Inverted Y</param>
+			/// <returns>Original Y position</returns>
+			inline static unsigned int getOriginalY(unsigned int y) { return getWindowSize().y - y; }
 
 			/// <summary>
 			/// Get all the spawned entities
 			/// </summary>
 			/// <returns></returns>
-			inline static std::vector<PEntity> getEntities() { return entities; }
+			inline static std::vector<WPEntity> getEntities() { return entities; }
 			/// <summary>
 			/// Remove an entity from the game
 			/// </summary>
 			/// <param name="entityToRemove">Entity to remove</param>
-			static void removeEntity(std::shared_ptr<Entity> entityToRemove);
+			static void removeEntity(const Entity* entityToRemove);
 			/// <summary>
 			/// Adds an entity in the game
 			/// </summary>
 			/// <param name="entityToAdd">Entity to add</param>
-			static void addEntity(PEntity entityToAdd);
+			static void addEntity(WPEntity entityToAdd);
 
 			/// <summary>
 			/// Updates all the updatable objects of the game
@@ -65,9 +68,6 @@ namespace Game
 			~GameManager();
 
 		private:
-
-			Game::Physics::PhysicsManager* physicsManager;
-
 			/// <summary>
 			/// Game window
 			/// </summary>
@@ -88,7 +88,7 @@ namespace Game
 			/// <summary>
 			/// In game spawned entities
 			/// </summary>
-			static std::vector<PEntity> entities;
+			static std::vector<WPEntity> entities;
 		};
 	}
 }

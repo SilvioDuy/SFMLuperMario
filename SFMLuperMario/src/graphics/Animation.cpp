@@ -16,7 +16,7 @@ Animation Animation::loadAnimation(std::string animName)
 
 	if (!f)
 	{
-		log("[Warning] Can't find Animation file for " + animName);
+		DEBUG_LOG("[Warning] Can't find Animation file for " + animName);
 		return Animation(frames, false);
 	}
 

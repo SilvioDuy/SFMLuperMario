@@ -24,9 +24,6 @@
     <ClCompile Include="main.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Entity.cpp">
-      <Filter>File di origine\Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\GameManager.cpp">
       <Filter>File di origine\Core</Filter>
     </ClCompile>
@@ -52,6 +49,15 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="src\physics\PhysicsHandler.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\RenderingManager.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Renderer.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GameObject.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,6 +99,21 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\MathUtils.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\RenderingManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\Renderer.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\GameObject.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Component.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Transform.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
 #include "GameManager.h"
-#include "Entity.h"
+#include "GameObject.h"
 #include "Player.h"
 #include "Level.h"
 #include "../utils/Utils.h"
@@ -8,7 +8,7 @@ using namespace Game::Core;
 
 //Static members declaration
 Level* GameManager::currentLevel;
-std::vector<PEntity> GameManager::entities;
+std::vector<WPEntity> GameManager::entities;
 
 sf::RenderWindow* GameManager::gameWindow;
 
@@ -20,45 +20,40 @@ GameManager::GameManager(sf::RenderWindow* window)
 	gameWindow = window;
 	gameClock.restart();
 
-	physicsManager = new Game::Physics::PhysicsManager();
-
 	currentLevel = new Level();
 	currentLevel->loadLevelData(0);
 
-	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player("Giocatore", sf::Vector2f(100.f, 50.f), sf::Vector2f(0.f, 0.f), sf::Vector2f(1.f, 1.f)));
-	player->setTexture("Assets/Sprites/MarioSheet.png", 0, 0, (int)PLAYER_SPRITE_SIZE);
-	addEntity(std::move(player));
+	GameObject* playerGO = new GameObject("Player");
+	PPlayer player = playerGO->addComponent<Player>();
+	addEntity(player);
 }
 
 GameManager::~GameManager()
 {
 	entities.clear();
 	delete currentLevel;
-	delete physicsManager;
 }
 
 void GameManager::updateGame()
 {
-	if (physicsManager)
-	{
-		physicsManager->update();
-	}
-
 	deltaTime = gameClock.getElapsedTime().asSeconds();
 	gameClock.restart();
 
-	for (auto const& e : entities)
+	for (auto const& entity : entities)
 	{
-		if (e == nullptr)
-			continue;
+		if (auto e = entity.lock())
+		{
+			if (!e->enabled)
+				continue;
 
-		e->update();
+			e->update();
+		}
 	}
 }
 
-void GameManager::addEntity(PEntity entityToAdd)
+void GameManager::addEntity(WPEntity entityToAdd)
 {
-	entities.push_back(entityToAdd);
+	entities.push_back(std::move(entityToAdd));
 }
 
 float GameManager::getFloor()
@@ -71,19 +66,22 @@ float GameManager::getGravityForce()
 	return currentLevel->getGravityForce();
 }
 
-void GameManager::removeEntity(PEntity entityToRemove)
+void GameManager::removeEntity(const Entity* entityToRemove)
 {
-	if (entityToRemove == nullptr)
+	if (entityToRemove == nullptr || entities.begin() >= entities.end())
 		return;
 
 	int index = -1;
 
 	for (unsigned int i = 0; i < entities.size(); i++)
 	{
-		if (entities[i] == entityToRemove)
+		if (auto e = entities[i].lock())
 		{
-			index = i;
-			break;
+			if (e.get() == entityToRemove)
+			{
+				index = i;
+				break;
+			}
 		}
 	}
 

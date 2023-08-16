@@ -1,6 +1,7 @@
 #include "PhysicsHandler.h"
 #include "PhysicsManager.h"
 #include "../core/GameManager.h"
+#include "../core/GameObject.h"
 #include "../utils/Utils.h"
 #include "../utils/MathUtils.h"
 
@@ -8,7 +9,7 @@ using namespace Game::Physics;
 
 PhysicsHandler::PhysicsHandler(sf::Vector2f pos, bool hasCollider, bool hasRigidbody)
 {
-	position = pos;
+	position = new sf::Vector2f(pos);
 
 	if (hasCollider)
 	{
@@ -21,11 +22,12 @@ PhysicsHandler::PhysicsHandler(sf::Vector2f pos, bool hasCollider, bool hasRigid
 	}
 
 	onUpdateListeners = new std::vector<OnUpdateDelegate>();
-	PhysicsManager::addHandler(this);
 }
 
 PhysicsHandler::~PhysicsHandler()
 {
+	Game::Core::Component::~Component();
+
 	onUpdateListeners->clear();
 	delete onUpdateListeners;
 
@@ -34,14 +36,20 @@ PhysicsHandler::~PhysicsHandler()
 
 	if (collider)
 		delete collider;
+
+	delete position;
 }
 
+void PhysicsHandler::start()
+{
+	PhysicsManager::addHandler(gameObject->getComponent<PhysicsHandler>());
+}
 
 void PhysicsHandler::addCollider()
 {
 	if (collider)
 	{
-		log("[Warning] Collider already present");
+		DEBUG_LOG("[Warning] Collider already present");
 		return;
 	}
 
@@ -52,38 +60,42 @@ void PhysicsHandler::addRigidbody()
 {
 	if (rigidbody)
 	{
-		log("[Warning] Rigidbody already present");
+		DEBUG_LOG("[Warning] Rigidbody already present");
 		return;
 	}
 
 	rigidbody = new Rigidbody();
 }
 
-void PhysicsHandler::computePhysics(std::vector<PPhysicsHandler>& handlers)
+void PhysicsHandler::computePhysics(std::vector<WPPhysicsHandler>& handlers)
 {
 	if (!rigidbody)
 		return;
 
 	if (rigidbody->useGravity)
 	{
-		addForce(PhysicsManager::gravityForce * Game::Core::GameManager::getDeltaTime() * rigidbody->mass, VECTOR_DOWN);
+		addForce(PhysicsManager::gravityForce * Game::Core::GameManager::getDeltaTime() * rigidbody->mass, VECTOR_UP);
 	}
 
 	if (collider)
 	{
 		sf::Vector2f collisionOffset(0.f, 0.f);
 
-		for (auto const& h : handlers)
+		for (auto const& handler : handlers)
 		{
-			if (h.get() == this)
-				continue;
+			if (auto h = handler.lock())
+			{
+				if (h.get() == this)
+					continue;
 
-			collider->checkCollisions(*(h->collider), position, h->position);
+				collider->checkCollisions(*(h->collider), *position, *h->position);
+			}
 		}
 
-		position += collisionOffset;
+		*position += collisionOffset;
 	}
 
+	gameObject->transform->position = *position;
 	invokeOnUpdate();
 }
 
@@ -96,11 +108,11 @@ void PhysicsHandler::invokeOnUpdate()
 {
 	for (auto const& f : *onUpdateListeners)
 	{
-		f(position);
+		f(*position);
 	}
 }
 
 void PhysicsHandler::addForce(float force, sf::Vector2f direction)
 {
-	position += direction * force;
+	*position += direction * force;
 }

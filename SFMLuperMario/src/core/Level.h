@@ -1,5 +1,6 @@
 #pragma once
 
+#include <json.hpp>
 #include <SFML\Graphics.hpp>
 
 namespace Game
@@ -13,9 +14,17 @@ namespace Game
 			/// </summary>
 			struct Tile
 			{
-				sf::Sprite sprite;
-				sf::Texture texture;
+				bool isInteractable;
+				bool isSolid;
+
+				sf::Sprite* sprite;
+				sf::Texture* texture;
+
+				Tile(sf::Vector2i position, sf::Vector2f scale, float rotation);
+				~Tile();
 			};
+
+			typedef std::shared_ptr<Tile> PTile;
 
 		public:
 			/// <summary>
@@ -26,7 +35,7 @@ namespace Game
 			/// <summary>
 			/// Populates all the level tiles
 			/// </summary>
-			void populateTiles();
+			void populateTiles(const nlohmann::json& tiles);
 			/// <summary>
 			/// Get level gravity force
 			/// </summary>
@@ -44,7 +53,7 @@ namespace Game
 			/// <summary>
 			/// All the tiles of this level
 			/// </summary>
-			std::vector<Tile> tiles;
+			std::vector<PTile> tiles;
 			/// <summary>
 			/// Gravity force for this level
 			/// </summary>

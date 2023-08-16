@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "../core/Component.h"
 #include "Animation.h"
 
 namespace Game
@@ -10,7 +11,7 @@ namespace Game
 		/// <summary>
 		/// Handles the animations of a game entity
 		/// </summary>
-		class Animator
+		class Animator : public Game::Core::Component
 		{
 #pragma region Methods
 

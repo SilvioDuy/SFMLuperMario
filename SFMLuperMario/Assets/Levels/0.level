@@ -7,35 +7,25 @@
   "tiles": [
     {
       "position": {
-        "x": 1.0,
-        "y": 1.0
+        "x": 100,
+        "y": 16
       },
-      "rotation": {
-        "angle": 0
-      },
+      "rotation": 0,
       "scale": {
-        "x": 1.0,
-        "y": 1.0
+        "x": 1,
+        "y": 1
       },
-      "interactable": "false",
-      "solid": "true",
-      "texture": "Assets/Sprites/Bricks.png"
-    },
-    {
-      "position": {
-        "x": 1.0,
-        "y": 1.0
+      "texCoord": {
+        "x": 16,
+        "y": 0
       },
-      "rotation": {
-        "angle": 0
+      "texSize": {
+        "x": 16,
+        "y": 16
       },
-      "scale": {
-        "x": 1.0,
-        "y": 1.0
-      },
-      "interactable": "true",
-      "solid": "true",
-      "texture": "Assets/Sprites/Bricks.png"
+      "interactable": false,
+      "solid": true,
+      "texture": "Assets/Sprites/blocks.png"
     }
   ],
   "entities": [

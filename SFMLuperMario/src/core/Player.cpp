@@ -1,28 +1,43 @@
+#include <string>
 #include <functional>
 #include "Player.h"
 #include "GameManager.h"
+#include "GameObject.h"
+#include "../graphics/Renderer.h"
 #include "../graphics/Animator.h"
-#include "../graphics/Animation.h"
 #include "../utils/Utils.h"
 #include "../utils/MathUtils.h"
+#include "../utils/AssetsUtils.h"
 
 using namespace Game::Core;
 
-Player::Player(std::string name, sf::Vector2f pos, sf::Vector2f rot, sf::Vector2f scale) : Entity(name, pos, rot, scale)
+void Player::start()
 {
 	movementSpeed = 180.f;
 	jumpSpeed = 210.f;
 	currentJumpTime = 0.f;
 	isJumping = false;
+	currentHorizontalOrientation = Entity::HorizontalOrientation::Right;
 
-	addPhysicsHandler(true, true);
+	auto physicsHandler = new Game::Physics::PhysicsHandler(gameObject->transform->position, true, true);
+	physicsHandler->rigidbody->useGravity = true;
+
+	gameObject->addComponent<Game::Physics::PhysicsHandler>(physicsHandler);
+	std::weak_ptr<Game::Graphics::Renderer> renderer = gameObject->addComponent<Game::Graphics::Renderer>();
+
+	std::string textureName = "MarioSheet";
+
+	if (auto r = renderer.lock())
+		r->setTexture(SPRITES_DIR + textureName + PNG_EXTENSION, 0, 0, 16);
 
 	populateAnimations();
+
+	gameObject->transform->position = sf::Vector2f(100.f, 50.f);
 }
 
 void Player::populateAnimations()
 {
-	animator = new Game::Graphics::Animator(2, 7, (int)PLAYER_SPRITE_SIZE);
+	Game::Graphics::Animator* animator = new Game::Graphics::Animator(2, 7, (int)PLAYER_SPRITE_SIZE);
 
 	for (int i = PlayerAnimation::Idle; i <= PlayerAnimation::Jump; ++i)
 	{
@@ -30,90 +45,59 @@ void Player::populateAnimations()
 		animator->addAnimation(Game::Graphics::Animation::loadAnimation("Mario/" + s));
 	}
 
-	/*frames.clear();
-	frames.push_back(AnimationFrame(0, 1, 0));
-	animator->addAnimation(Animation(frames, true));*/
-
-	/*frames.clear();
-	frames.push_back(AnimationFrame(1, 0, 0.1f));
-	frames.push_back(AnimationFrame(2, 0, 0.1f));
-	frames.push_back(AnimationFrame(3, 0, 0.1f));
-
-	animator->addAnimation(Animation(frames, true));
-
-	frames.clear();
-	frames.push_back(AnimationFrame(1, 1, 0.1f));
-	frames.push_back(AnimationFrame(2, 1, 0.1f));
-	frames.push_back(AnimationFrame(3, 1, 0.1f));
-
-	animator->addAnimation(Animation(frames, true));
-
-	frames.clear();
-	frames.push_back(AnimationFrame(5, 0, 0));
-	animator->addAnimation(Animation(frames, true));
-
-	frames.clear();
-	frames.push_back(AnimationFrame(5, 1, 0));
-	animator->addAnimation(Animation(frames, true));*/
+	gameObject->addComponent<Game::Graphics::Animator>(animator);
 }
 
 void Player::update()
 {
-	Entity::update();
-
 	PlayerAnimation animationToPlay = PlayerAnimation::Idle;
+	HorizontalOrientation newOrientation = currentHorizontalOrientation;
+	auto physicsHandler = gameObject->getComponent<Game::Physics::PhysicsHandler>();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) 
 	{
-		currentOrientation = HorizontalOrientation::Right;
+		newOrientation = HorizontalOrientation::Right;
 		physicsHandler->addForce(movementSpeed * GameManager::getDeltaTime(), VECTOR_RIGHT);
-		//sprite.move(movementSpeed * GameManager::getDeltaTime(), 0.f);
 		animationToPlay = PlayerAnimation::Move;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		currentOrientation = HorizontalOrientation::Left;
+		newOrientation = HorizontalOrientation::Left;
 		physicsHandler->addForce(movementSpeed * GameManager::getDeltaTime(), VECTOR_LEFT);
-
-		//sprite.move(-movementSpeed * GameManager::getDeltaTime(), 0.f);
 		animationToPlay = PlayerAnimation::Move;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isGrounded) 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) 
 	{
 		isJumping = true;
 	}
 
 	if (isJumping) 
 	{
-		jump();
+		jump(physicsHandler);
 		animationToPlay = PlayerAnimation::Jump;
 	}
 
-	if (currentOrientation == HorizontalOrientation::Left)
+	if (currentHorizontalOrientation != newOrientation)
 	{
-		sprite.setScale(sf::Vector2f(-1, 1));
-	}
-	else
-	{
-		sprite.setScale(sf::Vector2f(1, 1));
+		gameObject->transform->scale.x *= -1;
+		currentHorizontalOrientation = newOrientation;
 	}
 
-	animator->changeAnimation(static_cast<int>(animationToPlay));
+	gameObject->getComponent<Game::Graphics::Animator>()->changeAnimation(static_cast<int>(animationToPlay));
 }
 
-void Player::jump()
+void Player::jump(Game::Physics::PPhysicsHandler physicsHandler)
 {
 	currentJumpTime += GameManager::getDeltaTime();
 
 	if (currentJumpTime > JUMP_DURATION)
 	{
 		currentJumpTime = 0.f;
-		isGrounded = false;
+		//isGrounded = false;
 		isJumping = false;
 		return;
 	}
 
-	physicsHandler->addForce(jumpSpeed * GameManager::getDeltaTime(), VECTOR_UP);
-	//sprite.move(0.f, -jumpSpeed * GameManager::getDeltaTime());
+	physicsHandler->addForce(jumpSpeed * GameManager::getDeltaTime(), VECTOR_DOWN);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "../physics/PhysicsHandler.h"
 
 namespace Game
 {
@@ -36,13 +37,12 @@ namespace Game
 #pragma region Methods
 
 		public:
+			virtual void start() override;
 			virtual void update() override;
-
-			Player(std::string name, sf::Vector2f pos, sf::Vector2f rot, sf::Vector2f scale);
 
 		private:
 			void populateAnimations();
-			void jump();
+			void jump(Game::Physics::PPhysicsHandler physicsHandler);
 
 #pragma endregion
 
@@ -65,8 +65,15 @@ namespace Game
 			/// Current "flying" time since the beginning of jump
 			/// </summary>
 			float currentJumpTime;
+
+			/// <summary>
+			/// The movement speed of this entity
+			/// </summary>
+			float movementSpeed;
 		};
 
 #pragma endregion
+
+		typedef std::shared_ptr<Player> PPlayer;
 	}
 }
