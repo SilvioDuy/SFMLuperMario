@@ -21,6 +21,7 @@ void Player::start()
 
 	auto physicsHandler = new Game::Physics::PhysicsHandler(gameObject->transform->position, true, true);
 	physicsHandler->rigidbody->useGravity = true;
+	physicsHandler->collider->size = sf::Vector2f(16.f, 16.f);
 
 	gameObject->addComponent<Game::Physics::PhysicsHandler>(physicsHandler);
 	std::weak_ptr<Game::Graphics::Renderer> renderer = gameObject->addComponent<Game::Graphics::Renderer>();
@@ -28,7 +29,7 @@ void Player::start()
 	std::string textureName = "MarioSheet";
 
 	if (auto r = renderer.lock())
-		r->setTexture(SPRITES_DIR + textureName + PNG_EXTENSION, 0, 0, 16);
+		r->setTexture(SPRITES_DIR + textureName + PNG_EXTENSION, 0, 0, 16, 16);
 
 	populateAnimations();
 

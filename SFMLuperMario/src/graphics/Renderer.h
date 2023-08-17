@@ -13,7 +13,8 @@ namespace Game
 			int renderingOrder;
 
 			virtual void start() override;
-			void setTexture(std::string texPath, int x, int y, int spriteSize);
+			virtual void onDestroy() override;
+			void setTexture(std::string texPath, int x, int y, int width, int height);
 			sf::Sprite* prepareRendering();
 
 			inline Renderer() : renderingOrder(0) {};

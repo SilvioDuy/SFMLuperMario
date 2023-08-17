@@ -1,5 +1,6 @@
 #include "Collider.h"
 #include "PhysicsManager.h"
+#include "../utils/Utils.h"
 
 using namespace Game::Physics;
 
@@ -16,8 +17,20 @@ sf::Vector2f Collider::checkCollisions(Collider other, sf::Vector2f pos, sf::Vec
 	float minDistanceX = size.x * 0.5f + other.size.x * 0.5f;
 	float minDistanceY = size.y * 0.5f + other.size.y * 0.5f;
 
-	offset.x = std::min(0.f, minDistanceX - abs(pos.x - otherPos.x));
-	offset.y = std::min(0.f, minDistanceY - abs(pos.y - otherPos.y));
+	float x = pos.x - otherPos.x;
+	float xAbs = abs(x);
+	float y = pos.y - otherPos.y;
+	float yAbs = abs(y);
+
+	if (xAbs < minDistanceX && yAbs < minDistanceY)
+	{
+		float xDiff = minDistanceX - xAbs;
+		float yDiff = minDistanceY - yAbs;
+		if (xDiff < yDiff)
+			offset.x = (minDistanceX - xAbs) * (x / xAbs);
+		else
+			offset.y = (minDistanceY - yAbs) * (y / yAbs);
+	}
 
 	return offset;
 }

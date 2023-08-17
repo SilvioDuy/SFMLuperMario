@@ -22,7 +22,12 @@ void Renderer::start()
 	RenderingManager::addRenderer(renderer);
 }
 
-void Renderer::setTexture(std::string texPath, int x, int y, int spriteSize)
+void Renderer::onDestroy()
+{
+	RenderingManager::removeRenderer(this);
+}
+
+void Renderer::setTexture(std::string texPath, int x, int y, int width, int height)
 {
 	if (!texture->loadFromFile(texPath))
 	{
@@ -31,8 +36,9 @@ void Renderer::setTexture(std::string texPath, int x, int y, int spriteSize)
 	}
 		
 	sprite->setTexture(*texture);
-	sprite->setTextureRect(sf::IntRect(x, y, spriteSize, spriteSize));
-	sprite->setOrigin(sprite->getScale() * (float)spriteSize * 0.5f);
+	sprite->setTextureRect(sf::IntRect(x, y, width, height));
+	sf::Vector2f origin = sf::Vector2f(sprite->getScale().x * (float)width, sprite->getScale().y * (float)height) * 0.5f;
+	sprite->setOrigin(origin);
 }
 
 sf::Sprite* Renderer::prepareRendering()

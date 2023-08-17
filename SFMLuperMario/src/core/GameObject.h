@@ -18,7 +18,7 @@ namespace Game
 			/// <summary>
 			/// Gets a component from this Game Object
 			/// </summary>
-			/// <typeparam name="T"></typeparam>
+			/// <typeparam name="T">Component type</typeparam>
 			/// <returns></returns>
 			template <typename T>
 			std::shared_ptr<T> getComponent()
@@ -34,7 +34,7 @@ namespace Game
 			/// <summary>
 			/// Adds a component to this Game Object
 			/// </summary>
-			/// <typeparam name="T"></typeparam>
+			/// <typeparam name="T">Component type</typeparam>
 			/// <param name="componentToAdd"></param>
 			/// <returns></returns>
 			template <typename T>
@@ -77,9 +77,14 @@ namespace Game
 				return myPair.second;
 			}
 
-			inline GameObject() : name("GameObject"), transform(std::shared_ptr<Transform>(new Transform())) {};
-			inline GameObject(std::string gameObjectName) : name(gameObjectName), transform(std::shared_ptr<Transform>(new Transform())) {};
-			~GameObject();
+			static GameObject* instantiate(const std::string name);
+			void destroy();
+
+			inline GameObject() : name("GameObject"), isDestroyed(false), transform(std::shared_ptr<Transform>(new Transform())) {};
+			inline GameObject(std::string gameObjectName) : name(gameObjectName), isDestroyed(false), transform(std::shared_ptr<Transform>(new Transform())) {};
+
+		protected:
+			static inline void operator delete(void* p) { free(p); };
 
 		public:
 			std::string name;
@@ -87,6 +92,7 @@ namespace Game
 
 		private:
 			std::map<std::type_index, PComponent> components;
+			bool isDestroyed;
 		};
 	}
 }

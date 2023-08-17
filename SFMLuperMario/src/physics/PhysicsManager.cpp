@@ -25,3 +25,28 @@ void PhysicsManager::addHandler(WPPhysicsHandler handler)
 {
 	handlers.push_back(std::move(handler));
 }
+
+void PhysicsManager::removeHandler(const PhysicsHandler* handler)
+{
+	if (handler == nullptr || handlers.begin() >= handlers.end())
+		return;
+
+	int index = -1;
+
+	for (unsigned int i = 0; i < handlers.size(); i++)
+	{
+		if (auto h = handlers[i].lock())
+		{
+			if (h.get() == handler)
+			{
+				index = i;
+				break;
+			}
+		}
+	}
+
+	if (index < 0)
+		return;
+
+	handlers.erase(handlers.begin() + index);
+}

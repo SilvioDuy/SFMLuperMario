@@ -9,23 +9,6 @@ namespace Game
 	{
 		class Level
 		{
-			/// <summary>
-			/// Representation of a tile
-			/// </summary>
-			struct Tile
-			{
-				bool isInteractable;
-				bool isSolid;
-
-				sf::Sprite* sprite;
-				sf::Texture* texture;
-
-				Tile(sf::Vector2i position, sf::Vector2f scale, float rotation);
-				~Tile();
-			};
-
-			typedef std::shared_ptr<Tile> PTile;
-
 		public:
 			/// <summary>
 			/// Loads level data from file
@@ -47,13 +30,13 @@ namespace Game
 			/// <returns>Gravity force</returns>
 			inline float getFloorHeight() { return floor; }
 
-			Level();
+			~Level();
 
 		private:
 			/// <summary>
 			/// All the tiles of this level
 			/// </summary>
-			std::vector<PTile> tiles;
+			std::vector<GameObject*> tiles;
 			/// <summary>
 			/// Gravity force for this level
 			/// </summary>

@@ -23,6 +23,7 @@ namespace Game
 			void subscribeToUpdate(OnUpdateDelegate callback);
 
 			virtual void start() override;
+			inline virtual void onDestroy() override;
 			void update() {};
 
 			inline PhysicsHandler() : position(new sf::Vector2f(0.f, 0.f)), rigidbody(nullptr), collider(nullptr), onUpdateListeners(new std::vector<OnUpdateDelegate>) {};

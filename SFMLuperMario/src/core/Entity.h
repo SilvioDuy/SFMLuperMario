@@ -37,6 +37,7 @@ namespace Game
 			/// This method is called every frame
 			/// </summary>
 			inline virtual void update() {};
+			virtual void onDestroy() override;
 
 			/// <summary>
 			/// Current orientation of the entity

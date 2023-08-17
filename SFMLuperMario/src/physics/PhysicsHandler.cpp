@@ -26,8 +26,6 @@ PhysicsHandler::PhysicsHandler(sf::Vector2f pos, bool hasCollider, bool hasRigid
 
 PhysicsHandler::~PhysicsHandler()
 {
-	Game::Core::Component::~Component();
-
 	onUpdateListeners->clear();
 	delete onUpdateListeners;
 
@@ -43,6 +41,11 @@ PhysicsHandler::~PhysicsHandler()
 void PhysicsHandler::start()
 {
 	PhysicsManager::addHandler(gameObject->getComponent<PhysicsHandler>());
+}
+
+void PhysicsHandler::onDestroy()
+{
+	PhysicsManager::removeHandler(this);
 }
 
 void PhysicsHandler::addCollider()
@@ -88,7 +91,7 @@ void PhysicsHandler::computePhysics(std::vector<WPPhysicsHandler>& handlers)
 				if (h.get() == this)
 					continue;
 
-				collider->checkCollisions(*(h->collider), *position, *h->position);
+				collisionOffset += collider->checkCollisions(*(h->collider), *position, *h->position);
 			}
 		}
 

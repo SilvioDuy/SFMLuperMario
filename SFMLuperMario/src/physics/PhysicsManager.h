@@ -14,6 +14,7 @@ namespace Game
 			void resolvePhysics();
 
 			static void addHandler(WPPhysicsHandler handler);
+			static void removeHandler(const PhysicsHandler* handler);
 
 		public:
 			static float gravityForce;

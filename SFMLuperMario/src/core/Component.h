@@ -14,7 +14,8 @@ namespace Game
 			bool enabled;
 
 			inline Component() : enabled(false) {};
-			inline virtual void start() { };
+			inline virtual void start() {};
+			inline virtual void onDestroy() {};
 		};
 
 		typedef std::shared_ptr<Component> PComponent;

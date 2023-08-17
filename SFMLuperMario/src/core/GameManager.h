@@ -89,6 +89,11 @@ namespace Game
 			/// In game spawned entities
 			/// </summary>
 			static std::vector<WPEntity> entities;
+
+			/// <summary>
+			/// Game Object that represents player in game
+			/// </summary>
+			GameObject* playerGO;
 		};
 	}
 }

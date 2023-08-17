@@ -23,7 +23,7 @@ GameManager::GameManager(sf::RenderWindow* window)
 	currentLevel = new Level();
 	currentLevel->loadLevelData(0);
 
-	GameObject* playerGO = new GameObject("Player");
+	playerGO = GameObject::instantiate("Player");
 	PPlayer player = playerGO->addComponent<Player>();
 	addEntity(player);
 }
@@ -31,6 +31,9 @@ GameManager::GameManager(sf::RenderWindow* window)
 GameManager::~GameManager()
 {
 	entities.clear();
+
+	playerGO->destroy();
+
 	delete currentLevel;
 }
 
